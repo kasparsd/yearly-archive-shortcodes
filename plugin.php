@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Yearly Archive and Stats Shortcode
+GitHub URL: https://github.com/kasparsd/yearly-archive-shortcodes
 Description: Provides <code>[yearly_archive]</code> and [yearly_archive_stats] shortcodes
 Version: 1.2.4
 Author: Kaspars Dambis
 */
-
 
 add_shortcode( 'yearly_archive_stats', 'yas_stats' );
 
