@@ -39,7 +39,7 @@ function yas_stats() {
 
 	$stats_render = sprintf(
 		'In %s since %s I have written %d blog posts mostly on %s and %s (one post per %s on average) which have received %d comments.
-		Posts are composed of %d words and %d in total with %s words and %s per post on average which would be a book of %d pages.',
+		Posts are composed of %d words and %d images in total with %s words and %s per post on average which would be a book of %d pages.',
 		human_time_diff( $first_post_date ),
 		date( 'F n, Y', $first_post_date ),
 		$post_count->publish,
