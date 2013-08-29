@@ -2,7 +2,7 @@
 /*
 Plugin Name: Yearly Archive and Stats Shortcode
 Description: Provides <code>[yearly_archive]</code> and [yearly_archive_stats] shortcodes
-Version: 1.2
+Version: 1.2.3
 Author: Kaspars Dambis
 */
 
@@ -27,9 +27,11 @@ function yas_stats() {
 	$all_posts = get_posts( array( 'posts_per_page' => -1 ) );
 	$word_count = array();
 	$week_stats = array();
+	$img_stats = array();
 	foreach ( $all_posts as $post ) {
 		$week_stats[ date( 'l', strtotime( $post->post_date ) ) ] += 1;
 		$word_count[] = str_word_count( strip_tags( $post->post_content ) );
+		$img_stats[] = substr_count( $post->post_content, '<img ' ); 
 	}
 	arsort( $week_stats );
 	$week_stats = array_keys( $week_stats );
@@ -37,7 +39,7 @@ function yas_stats() {
 
 	$stats_render = sprintf(
 		'In %s since %s I have written %d blog posts mostly on %s and %s (one post per %s on average) which have received %d comments.
-		Posts are composed of %d words in total with %s words per post on average which would be a book of %d pages.',
+		Posts are composed of %d words and %d in total with %s words and %s per post on average which would be a book of %d pages.',
 		human_time_diff( $first_post_date ),
 		date( 'F n, Y', $first_post_date ),
 		$post_count->publish,
@@ -46,8 +48,10 @@ function yas_stats() {
 		human_time_diff( time() - $time_between_posts ),
 		$comment_count->approved,
 		$word_count_total,
+		array_sum( $img_stats ),
 		intval( $word_count_total / $post_count->publish ),
-		intval( $word_count_total / 250 ) 
+		sprintf( _n( '%d image', '%d images', ceil( array_sum( $img_stats ) / $post_count->publish ) ), ceil( array_sum( $img_stats ) / $post_count->publish ) ),
+		intval( $word_count_total / 250 )
 	);
 
 	set_transient( 'yearly_archive_stats_render', $stats_render, 24*60*60 );
