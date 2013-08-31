@@ -3,7 +3,7 @@
 Plugin Name: Yearly Archive and Stats Shortcode
 GitHub URL: https://github.com/kasparsd/yearly-archive-shortcodes
 Description: Provides <code>[yearly_archive]</code> and [yearly_archive_stats] shortcodes
-Version: 1.2.4
+Version: 1.2.5
 Author: Kaspars Dambis
 */
 
@@ -53,6 +53,8 @@ function yas_stats() {
 		sprintf( _n( '%d image', '%d images', ceil( array_sum( $img_stats ) / $post_count->publish ) ), ceil( array_sum( $img_stats ) / $post_count->publish ) ),
 		intval( $word_count_total / 250 )
 	);
+
+	$stats_render = wpautop( $stats_render, false );
 
 	set_transient( 'yearly_archive_stats_render', $stats_render, 24*60*60 );
 
